@@ -38,7 +38,9 @@ def fill_order(order):
     if 'id' not in order:
       order['id'] = order_id
       order_id += 1
-
+    else:
+      order_id = order['id'] + 10000
+    
     fields = ['sender_pk','receiver_pk','buy_currency','sell_currency','buy_amount','sell_amount', 'creator_id', 'counterparty_id', 'filled', 'id']
     order = Order(**{f:order[f] for f in fields})
     
