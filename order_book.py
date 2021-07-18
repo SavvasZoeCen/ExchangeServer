@@ -24,8 +24,8 @@ def fill_order(order):
     #1.	Insert the order into the database
     fields = ['sender_pk','receiver_pk','buy_currency','sell_currency','buy_amount','sell_amount']
     order_obj = Order(**{f:order[f] for f in fields})
-    session.add(order)
-    session.commit()  
+    session.add(order_obj)
+    session.commit()
 
     #2.	Check if there are any existing orders that match. 
     orders = session.query(Order).filter(Order.filled == "").all() #Get all unfilled orders
@@ -76,7 +76,7 @@ def fill_order(order):
           
           #o	The sell_amount of the new order can be any value such that the implied exchange rate of the new order is at least that of the old order
           #o	You can then try to fill the new order
-          #fill_order(child_order)
+          fill_order(child_order)
           
           break
 
