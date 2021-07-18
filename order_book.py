@@ -22,6 +22,8 @@ def fill_order(order):
     """
     
     #1.	Insert the order into the database
+    fields = ['sender_pk','receiver_pk','buy_currency','sell_currency','buy_amount','sell_amount']
+    order_obj = Order(**{f:order[f] for f in fields})
     session.add(order)
     session.commit()  
 
