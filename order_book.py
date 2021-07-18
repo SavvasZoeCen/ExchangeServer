@@ -50,15 +50,15 @@ def fill_order(order):
     
         #3.	If a match is found between order and existing_order:
         #– Set the filled field to be the current timestamp on both orders
-        existing_order.filled = datetime
-        order.filled = datetime
+        existing_order.filled = datetime.now()
+        order.filled = datetime.now()
         
         #– Set counterparty_id to be the id of the other order
         existing_order.counterparty_id = order.id
         order.counterparty_id = existing_order.id
 
         #– If one of the orders is not completely filled (i.e. the counterparty’s sell_amount is less than buy_amount):
-        parent_order = None
+        #parent_order = None
         
         if existing_order.sell_amount < order.buy_amount: #this order is not completely filled
           parent_order = order
