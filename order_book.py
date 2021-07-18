@@ -44,7 +44,7 @@ def fill_order(order):
     orders = session.query(Order).filter(Order.filled == "" or Order.filled == None).all() #Get all unfilled orders
     for existing_order in orders:
       if (existing_order.buy_currency == order.sell_currency and 
-        existing_order.sell_currency == order.buy_currenc] and 
+        existing_order.sell_currency == order.buy_currency and 
         existing_order.sell_amount/existing_order.buy_amount >= order.buy_amount/order.sell_amount): #match
         print("matched")
     
