@@ -9,7 +9,7 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 def fill_order(order):
-    print("->fill_order")
+    #print("->fill_order")
     
     """order is a dictionary of below example
     { 
@@ -28,7 +28,7 @@ def fill_order(order):
     
     #1.	Insert the order into the database
     if 'filled' not in order:
-      order['filled'] = ""
+      order['filled'] = None
     if 'counterparty_id' not in order:
       order['counterparty_id'] = ""
     if 'creator_id' not in order:
@@ -41,7 +41,7 @@ def fill_order(order):
     session.commit()
 
     #2.	Check if there are any existing orders that match. 
-    orders = session.query(Order).filter(Order.filled == "").all() #Get all unfilled orders
+    orders = session.query(Order).filter(Order.filled == "" or Order.filled == None).all() #Get all unfilled orders
     for existing_order in orders:
       if (existing_order.buy_currency == order.sell_currency and 
         existing_order.sell_currency == order.buy_currency and 
