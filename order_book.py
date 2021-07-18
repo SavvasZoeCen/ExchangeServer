@@ -9,6 +9,7 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 def fill_order(order):
+    print("->fill_order")
     
     """order is a dictionary of below example
     { 
