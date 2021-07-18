@@ -17,13 +17,25 @@ def fill_order(order):
     'buy_amount': 1245.00,
     'sell_amount': 2342.31,
     'sender_pk': 'AAAAC3NzaC1lZDI1NTE5AAAAIB8Ht8Z3j6yDWPBHQtOp/R9rjWvfMYo3MSA/K6q8D86r',
-    'receiver_pk': '0xd1B77a920A0c5010469F40f14c5e4E03f4357226'
+    'receiver_pk': '0xd1B77a920A0c5010469F40f14c5e4E03f4357226',
+    'creator_id': "",
+    'counterparty_id': "",
+    'filled': "",
+    'id': ""
     }
     """
     
     #1.	Insert the order into the database
+    if 'filled' not in order:
+      order['filled'] = ""
+    if 'counterparty_id' not in order:
+      order['counterparty_id'] = ""
+    if 'creator_id' not in order:
+      order['creator_id'] = ""
+
     fields = ['sender_pk','receiver_pk','buy_currency','sell_currency','buy_amount','sell_amount']
     order_obj = Order(**{f:order[f] for f in fields})
+    
     session.add(order_obj)
     session.commit()
 
@@ -68,7 +80,7 @@ def fill_order(order):
           child_order['sell_currency'] = parent_order['sell_currency']
           
           #o	The new order should have the created_by field set to the id of its parent order
-          child_order['created_by'] = parent_order.id
+          child_order['creator_id'] = parent_order.id
           
           #o	The new order should have the same pk and platform as its parent order
           child_order['sender_pk'] = parent_order.sender_pk
