@@ -30,21 +30,21 @@ def fill_order(order):
     if 'filled' not in order:
       order['filled'] = None
     if 'counterparty_id' not in order:
-      order['counterparty_id'] = ""
+      order['counterparty_id'] = None
     if 'creator_id' not in order:
-      order['creator_id'] = ""
+      order['creator_id'] = None
 
     fields = ['sender_pk','receiver_pk','buy_currency','sell_currency','buy_amount','sell_amount', 'creator_id', 'counterparty_id', 'filled']
-    order_obj = Order(**{f:order[f] for f in fields})
+    order = Order(**{f:order[f] for f in fields})
     
-    session.add(order_obj)
+    session.add(order)
     session.commit()
 
     #2.	Check if there are any existing orders that match. 
     orders = session.query(Order).filter(Order.filled == "" or Order.filled == None).all() #Get all unfilled orders
     for existing_order in orders:
       if (existing_order.buy_currency == order.sell_currency and 
-        existing_order.sell_currency == order.buy_currency and 
+        existing_order.sell_currency == order.buy_currenc] and 
         existing_order.sell_amount/existing_order.buy_amount >= order.buy_amount/order.sell_amount): #match
         print("matched")
     
