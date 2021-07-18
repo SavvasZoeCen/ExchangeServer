@@ -46,7 +46,7 @@ def fill_order(order):
       if (existing_order.buy_currency == order.sell_currency and 
         existing_order.sell_currency == order.buy_currency and 
         existing_order.sell_amount/existing_order.buy_amount >= order.buy_amount/order.sell_amount): #match
-        print("matched")
+        #print("matched")
     
         #3.	If a match is found between order and existing_order:
         #– Set the filled field to be the current timestamp on both orders
@@ -58,20 +58,22 @@ def fill_order(order):
         order.counterparty_id = existing_order.id
 
         #– If one of the orders is not completely filled (i.e. the counterparty’s sell_amount is less than buy_amount):
+        parent_order = None
+        
         if existing_order.sell_amount < order.buy_amount: #this order is not completely filled
           parent_order = order
           buy_amount = order.buy_amount - existing_order.sell_amount
           sell_amount = order.sell_amount - existing_order.buy_amount
-          print("parent_order = order")
+          #print("parent_order = order")
           
         if order.sell_amount < existing_order.buy_amount: #existing_order is not completely filled
           parent_order = existing_order
           buy_amount = existing_order.buy_amount - order.sell_amount
           sell_amount = existing_order.sell_amount - order.buy_amount
-          print("parent_order = existing_order")
+          #print("parent_order = existing_order")
           
         if parent_order is not None:
-          print("parent_order is not None")
+          #print("parent_order is not None")
           #o	Create a new order for remaining balance
           child_order = {} #new dict
           child_order['buy_amount'] = buy_amount
