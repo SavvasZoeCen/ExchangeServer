@@ -7,6 +7,7 @@ engine = create_engine('sqlite:///orders.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
+id = 0
 
 def fill_order(order):
     #print("->fill_order")
@@ -19,10 +20,10 @@ def fill_order(order):
     'sell_amount': 2342.31,
     'sender_pk': 'AAAAC3NzaC1lZDI1NTE5AAAAIB8Ht8Z3j6yDWPBHQtOp/R9rjWvfMYo3MSA/K6q8D86r',
     'receiver_pk': '0xd1B77a920A0c5010469F40f14c5e4E03f4357226',
-    'creator_id': "",
-    'counterparty_id': "",
-    'filled': "",
-    'id': ""
+    'creator_id': None,
+    'counterparty_id': None,
+    'filled': None,
+    'id': None
     }
     """
     
@@ -33,8 +34,11 @@ def fill_order(order):
       order['counterparty_id'] = None
     if 'creator_id' not in order:
       order['creator_id'] = None
+    if 'id' not in order:
+      order['id'] = id
+      id += 1
 
-    fields = ['sender_pk','receiver_pk','buy_currency','sell_currency','buy_amount','sell_amount', 'creator_id', 'counterparty_id', 'filled']
+    fields = ['sender_pk','receiver_pk','buy_currency','sell_currency','buy_amount','sell_amount', 'creator_id', 'counterparty_id', 'filled', 'id']
     order = Order(**{f:order[f] for f in fields})
     
     session.add(order)
@@ -58,8 +62,6 @@ def fill_order(order):
         order.counterparty_id = existing_order.id
 
         #– If one of the orders is not completely filled (i.e. the counterparty’s sell_amount is less than buy_amount):
-        #parent_order = None
-        
         if existing_order.sell_amount < order.buy_amount: #this order is not completely filled
           parent_order = order
           buy_amount = order.buy_amount - existing_order.sell_amount
@@ -72,7 +74,7 @@ def fill_order(order):
           sell_amount = existing_order.sell_amount - order.buy_amount
           #print("parent_order = existing_order")
           
-        if True: #existing_order.sell_amount < order.buy_amount or order.sell_amount < existing_order.buy_amount:
+        if existing_order.sell_amount < order.buy_amount or order.sell_amount < existing_order.buy_amount:
           #print("parent_order is not None")
           #o	Create a new order for remaining balance
           child_order = {} #new dict
