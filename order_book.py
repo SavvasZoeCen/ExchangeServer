@@ -50,7 +50,7 @@ def fill_order(order):
     
         #3.	If a match is found between order and existing_order:
         #– Set the filled field to be the current timestamp on both orders
-        existing_order.filled = datetime.now()
+        existing_order.filled = datetime
         order.filled = datetime.now()
         
         #– Set counterparty_id to be the id of the other order
