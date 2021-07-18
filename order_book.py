@@ -77,8 +77,8 @@ def fill_order(order):
           child_order = {} #new dict
           child_order['buy_amount'] = buy_amount
           child_order['sell_amount'] = sell_amount
-          child_order['buy_currency'] = parent_order['buy_currency']
-          child_order['sell_currency'] = parent_order['sell_currency']
+          child_order['buy_currency'] = parent_order.buy_currency
+          child_order['sell_currency'] = parent_order.sell_currency
           
           #o	The new order should have the created_by field set to the id of its parent order
           child_order['creator_id'] = parent_order.id
