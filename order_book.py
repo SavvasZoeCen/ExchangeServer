@@ -34,7 +34,7 @@ def fill_order(order):
     if 'creator_id' not in order:
       order['creator_id'] = ""
 
-    fields = ['sender_pk','receiver_pk','buy_currency','sell_currency','buy_amount','sell_amount']
+    fields = ['sender_pk','receiver_pk','buy_currency','sell_currency','buy_amount','sell_amount', 'creator_id', 'counterparty_id', 'filled']
     order_obj = Order(**{f:order[f] for f in fields})
     
     session.add(order_obj)
