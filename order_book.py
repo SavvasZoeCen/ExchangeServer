@@ -7,7 +7,7 @@ engine = create_engine('sqlite:///orders.db')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
-id = 0
+order_id = 0
 
 def fill_order(order):
     #print("->fill_order")
@@ -28,6 +28,7 @@ def fill_order(order):
     """
     
     #1.	Insert the order into the database
+    global order_id
     if 'filled' not in order:
       order['filled'] = None
     if 'counterparty_id' not in order:
@@ -35,8 +36,8 @@ def fill_order(order):
     if 'creator_id' not in order:
       order['creator_id'] = None
     if 'id' not in order:
-      order['id'] = id
-      id += 1
+      order['id'] = order_id
+      order_id += 1
 
     fields = ['sender_pk','receiver_pk','buy_currency','sell_currency','buy_amount','sell_amount', 'creator_id', 'counterparty_id', 'filled', 'id']
     order = Order(**{f:order[f] for f in fields})
